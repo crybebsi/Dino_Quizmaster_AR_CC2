@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dino Quizmaster 🦖</title>
+<link rel="stylesheet" href="style.css" />
+<!-- A-Frame VR Library -->
+<script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
+</head>
+<body>
+
+<div id="start-screen" class="screen">
+  <h1>Dino Quizmaster 🦖</h1>
+  <button id="start-button">Start</button>
+</div>
+
+<div id="name-screen" class="screen hidden">
+  <h2>Wie heißt du?</h2>
+  <input type="text" id="name-input" placeholder="Dein Name" />
+  <h3>Wähle deinen Dino:</h3>
+  <div id="dino-selection">
+    <span data-dino="🦕">🦕</span>
+    <span data-dino="🦖">🦖</span>
+    <span data-dino="🐉">🐉</span>
+    <span data-dino="🦎">🦎</span>
+  </div>
+  <button id="join-button">Mitspielen</button>
+</div>
+
+<div id="lobby-screen" class="screen hidden">
+  <h2>Warteraum</h2>
+  <ul id="player-list"></ul>
+  <div id="player-count">Spieler: 1</div>
+  <button id="start-quiz-button" class="hidden">Quiz starten</button>
+</div>
+
+<div id="quiz-screen" class="screen hidden">
+  <div id="question-container"></div>
+  <div id="answers-container"></div>
+  <div id="timer-wrapper">
+    <div id="timer-bar"></div>
+  </div>
+</div>
+
+<div id="ranking-screen" class="screen hidden">
+  <h2>Ergebnis</h2>
+  <ul id="ranking-list"></ul>
+  <button id="restart-button">Neustart</button>
+</div>
+
+<!-- Score-Anzeige -->
+<div id="score-display">Punkte: 0</div>
+
+<!-- VR Szene: standard versteckt -->
+<a-scene id="vr-scene" embedded style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color: #a3d2ca;">
+  <!-- Kamera -->
+  <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
+  <!-- Licht -->
+  <a-entity light="type: ambient; color: #BBB"></a-entity>
+  <a-entity light="type: directional; intensity: 0.8" position="0 1 1"></a-entity>
+
+  <!-- Quiz Panel -->
+  <a-entity id="vr-quiz-panel" geometry="primitive: plane; height: 2; width: 3" material="color: #dcedc8; shader: flat" position="0 1.6 -2" 
+            text="value: Lade Quiz...; color: #1b5e20; width: 2.8; wrapCount: 30; align: center"></a-entity>
+
+  <!-- Antworten Container als Buttons -->
+  <a-entity id="vr-answers" position="0 0.5 -2"></a-entity>
+
+  <!-- Timer Balken -->
+  <a-entity id="vr-timer-bar-bg" geometry="primitive: plane; width: 2.8; height: 0.1" material="color: #ccc" position="0 0.2 -2"></a-entity>
+  <a-entity id="vr-timer-bar" geometry="primitive: plane; width: 2.8; height: 0.1" material="color: #8bc34a" position="0 0.2 -2" scale="1 1 1"></a-entity>
+
+  <!-- Kamera mit Cursor für VR -->
+  <a-camera>
+    <a-cursor 
+      color="white" 
+      fuse="true" 
+      fuse-timeout="2000" 
+      animation__fusing="property: scale; startEvents: fusing; easing: easeInQuad; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1">
+    </a-cursor>
+  </a-camera>
+</a-scene>
+
+<script src="script.js"></script>
+</body>
+</html>
